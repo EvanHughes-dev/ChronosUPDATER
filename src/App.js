@@ -18,30 +18,53 @@ const OneThroughSevenLetter = ['A', 'D', 'E', 'H', 'I', 'L'];
 const OneThroughFourLetter = ['B', 'F', 'J'];
 const FiveThroughSevenLetter = ['C', 'G', 'K'];
 
+
+class DaySchedule {
+    constructor(time, names, letterName) {
+        this.time = time;
+        this.name = names;
+        this.LetterName = letterName;
+    }
+}
+
+class WeekSchedule {
+    constructor(Monday, Tuesday, Wednesday, Thursday, Friday) {
+        this.Monday = Monday
+        this.Tuesday = Tuesday
+        this.Wednesday = Wednesday
+        this.Thursday = Thursday
+        this.Friday = Friday
+
+    }
+    SetMonday(Monday) {
+        this.Monday = Monday
+    }
+    SetTuesday(Tuesday) {
+        this.Tuesday = Tuesday
+    }
+    SetWednesDay(Wednesday) {
+        this.Wednesday = Wednesday
+    }
+    SetThursday(Thursday) {
+        this.Thursday = Thursday
+    }
+    SetFriday(Friday) {
+        this.Friday = Friday
+    }
+}
+
+const WeekMap = new Map([["Sen", new WeekSchedule(null, null, null, null, null)], ["Fresh", new WeekSchedule(null, null, null, null, null)]])
+
 //#region SavedDays
 var DayOfWeekInt = 0;
-var MonTimes = [];
-var MonPeriods = [];
-var MonDay;
-var TuesTimes = [];
-var TuesPeriods = [];
-var TuesDay;
-var WenTimes = [];
-var WenPeriods = [];
-var WenDay;
-var ThuTimes = [];
-var ThuPeriods = [];
-var ThuDay;
-var FriTimes = [];
-var FriPeriods = [];
-var FriDay;
 
-var DayArray = [MonTimes, MonPeriods, MonDay, TuesTimes, TuesPeriods, TuesDay, WenTimes, WenPeriods, WenDay, ThuTimes, ThuPeriods, ThuDay, FriTimes, FriPeriods, FriDay]
 var DayOfWeek = ["Mon", "Tues", "Wen", "Thu", "Fri"]
 var DaysOfWeekFull = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 //#endregion
 
 //#region Schedules
+
+
 
 const OneThroughSeven = {
     Period: ["1st", "2nd", "3rd", "4th", "L&L", "5th", "6th", "7th"],
@@ -72,124 +95,103 @@ const FiveThroughSevenFresh = {
     PeriodEnd: ["09:15", "09:54", "11:28", "12:02", "13:36", "14:35"],
 }
 
+const SenSchedules = {
+    OneToSeven: OneThroughSeven,
+    OneToFour: OneThroughFourSen,
+    FiveToSeven: FiveThroughSevenSen
+}
 
+const FreshSchedules = {
+    OneToSeven: OneThroughSeven,
+    OneToFour: OneThroughFourFresh,
+    FiveToSeven: FiveThroughSevenFresh
+}
 
+const ScheduleMap = new Map([["Sen", SenSchedules], ["Fresh", FreshSchedules]])
 //#endregion
 
 function App() {
-    
+
     var PeriodNum = [1, 2, 3, 4, 5, 6, 7, 8];
     var Div = (
         <div>
 
             {PeriodNum.map((number) => {
 
-                return (<div name={"Period"+number}>
+                return (<div name={"Period" + number}>
                     <label for={"Period" + number}>Period {number} </label>
-                <input type="text" id={"NamePeriod" + number} />
-                <input type="time" id={"PeriodStart" + number} />
-                <input type="time" id={"PeriodEnd" + number} />
+                    <input type="text" id={"NamePeriod" + number} />
+                    <input type="time" id={"PeriodStart" + number} />
+                    <input type="time" id={"PeriodEnd" + number} />
 
-            </div>);
-        })
+                </div>);
+            })
             }
         </div>);
 
-   
+
     return (
         <div>
-          <div name="HeaderForm">
+            <div name="HeaderForm">
 
-          </div>
-          
-            <div class="DayOfWeek"id="DayOfWeek" name="DayOfWeek">Day of week: Monday</div>
-          <div>
-              <label for="ForWho">Who is this for</label>
+            </div>
+
+            <div class="DayOfWeek" id="DayOfWeek" name="DayOfWeek">Day of week: Monday</div>
+            <div>
+                <label for="ForWho">Who is this for</label>
                 <select id="ForWho" name="ForWho" onChange={SetSchedule}>
 
-                  <option value="Fresh">Feshman/Sophmore</option>
-                  <option value="Sen">Junior/Senior</option>
-                  <option value="Both">Both</option>
+                    <option value="Fresh">Feshman/Sophmore</option>
+                    <option value="Sen">Junior/Senior</option>
+                    <option value="Both">Both</option>
 
-              </select>
-          </div>
+                </select>
+            </div>
 
-          <div>
-              <div>
+            <div>
+                <div>
 
-                  <div name="UseDefaultSchedule">
-                      <label for="UseDefaultSchedule">Do you want to use the default schedule?</label>
+                    <div name="UseDefaultSchedule">
+                        <label for="UseDefaultSchedule">Do you want to use the default schedule?</label>
 
-                      <label for="DefaultSchedule"> Yes</label>
+                        <label for="DefaultSchedule"> Yes</label>
                         <input id="UseSchedule" type="radio" name="DefaultSchedule" value="Yes" onChange={SetSchedule} />
 
-                      <label for="DefaultSchedule"> No</label>
+                        <label for="DefaultSchedule"> No</label>
                         <input type="radio" id="DontUseDefault" name="DefaultSchedule" value="No" onChange={SetSchedule} />
-                  </div>
-              </div>
+                    </div>
+                </div>
                 <select onChange={SetSchedule} id="letterDay">
-                  <option value="X" selected>Off School</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                  <option value="E">E</option>
-                  <option value="F">F</option>
-                  <option value="G">G</option>
-                  <option value="H">H</option>
-                  <option value="I">I</option>
-                  <option value="J">J</option>
-                  <option value="K">K</option>
-                  <option value="L">L</option>
+                    <option value="X" selected>Off School</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="H">H</option>
+                    <option value="I">I</option>
+                    <option value="J">J</option>
+                    <option value="K">K</option>
+                    <option value="L">L</option>
 
 
-              </select>
-              <br />
+                </select>
+                <br />
                 {Div}
-             
+
                 <button onClick={NextDay} id="NextDay" >Next Day</button>
                 <button onClick={AutoFillWeek} id="NextDay" >Auto-Fill</button>
-            <button onClick={SendData } name="SendIt" value="Set" >Send It!</button>
+                <button onClick={SendData} name="SendIt" value="Set" >Send It!</button>
             </div>
         </div>
-  );
+    );
 }
 
 function NextDay() {
-
-    var startingInt
-    switch (DayOfWeek[DayOfWeekInt]) {
-        case "Mon":
-            startingInt = 0;
-            break;
-        case "Tues":
-            startingInt = 3;
-            break;
-        case "Wen":
-            startingInt = 6;
-            break;
-        case "Thu":
-            startingInt = 9;
-            break;
-        case "Fri":
-            startingInt = 12;
-            break;
-    }
-
-    for (var i = 0; i < 8; i++) {
-        if (PeriodNameObjects[i].value == "" || PeriodNameObjects[i].value == null) {
-            break;
-        }
-        DayArray[startingInt + 1][i]= PeriodNameObjects[i].value;
-        DayArray[startingInt][i] = TimeStartObjects[i].value + "-" + TimeEndObjects[i].value;
-    }
-    DayArray[startingInt + 2] = document.getElementById("letterDay").value;
-    
-    if (DayArray[startingInt + 2] == "X") {
-        DayArray[startingInt+1][0] = "";
-        DayArray[startingInt][0] = ""
-    }
-
+    const GradeLevel = ["Fresh", "Sen"]
+    GradeLevel.map((Level) => { SaveDay(Level) })
 
     ClearSchedule();
     DayOfWeekInt++;
@@ -200,8 +202,49 @@ function NextDay() {
         document.getElementById("DayOfWeek").innerHTML = "Send it"
         document.getElementById("NextDay").style.display = "none";
     }
-    
+
 }
+
+function SaveDay(Level) {
+    var NameArray = []
+    var TimeArray = []
+    var LetterDay = document.getElementById("letterDay").value
+
+
+    var Schedule = GetNeededSchedule(Level, LetterDay);
+    for (var i = 0; i < Schedule.Period.length; i++) {
+        if (LetterDay == 'X') {
+            break;
+        }
+
+        //get the actual values from the array for each year
+        NameArray[i] = Schedule.Period[i]
+        TimeArray[i] = Schedule.PeriodStart[i] + "-" + Schedule.PeriodEnd[i];
+    }
+
+    const newDay = new DaySchedule(TimeArray, NameArray, LetterDay);
+
+    switch (DayOfWeek[DayOfWeekInt]) {
+        case "Mon":
+            WeekMap.get(Level).SetMonday(newDay)
+            break;
+        case "Tues":
+            WeekMap.get(Level).SetTuesday(newDay)
+            break;
+        case "Wen":
+            WeekMap.get(Level).SetWednesDay(newDay)
+            break;
+        case "Thu":
+            WeekMap.get(Level).SetThursday(newDay)
+            break;
+        case "Fri":
+            WeekMap.get(Level).SetFriday(newDay)
+            break;
+    }
+    console.log(WeekMap.get(Level))
+
+}
+
 async function SendData() {
 
     // Import the functions you need from the SDKs you need
@@ -227,34 +270,44 @@ async function SendData() {
 
     const db = getFirestore(app);
 
-  
-   
-    
-    try {
-       
-        await setDoc(doc(db, "Schedule", document.getElementById("ForWho").value), {
-            MonTimes: MonTimes,
-            MonPeriods: MonPeriods,
-            MonLetter: DayArray[2],
-            TueTimes: TuesTimes,
-            TuePeriods: TuesPeriods,
-            TueLetter: DayArray[5],
-            WenTimes: WenTimes,
-            WenPeriods: WenPeriods,
-            WenLetter: DayArray[8],
-            ThuTimes: ThuTimes,
-            ThuPeriods: ThuPeriods,
-            ThuLetter: DayArray[11],
-            FriTimes: FriTimes,
-            FriPeriods: FriPeriods,
-            FriLetter: DayArray[14]
+    var target = ["Sen", "Fresh"]
 
-        });
-    } catch (e) {
-        console.log(e);
-    }
+    console.log()
+    target.map(async (targetGrade) => {
+        var Schedules = WeekMap.get(targetGrade)
+
+        try {
+            await setDoc(doc(db, "Schedule", targetGrade), {
+
+                MonTimes: Schedules.Monday.time,
+                MonPeriods: Schedules.Monday.name,
+                MonLetter: Schedules.Monday.LetterName,
+
+                TueTimes: Schedules.Tuesday.time,
+                TuePeriods: Schedules.Tuesday.name,
+                TueLetter: Schedules.Tuesday.LetterName,
+
+                WenTimes: Schedules.Wednesday.time,
+                WenPeriods: Schedules.Wednesday.name,
+                WenLetter: Schedules.Wednesday.LetterName,
+
+                ThuTimes: Schedules.Thursday.time,
+                ThuPeriods: Schedules.Thursday.name,
+                ThuLetter: Schedules.Thursday.LetterName,
+
+                FriTimes: Schedules.Friday.time,
+                FriPeriods: Schedules.Friday.name,
+                FriLetter: Schedules.Friday.LetterName
+
+            })
+        } catch (e) { console.log(e) }
+
+    })
+
     ClearSchedule();
 }
+
+
 
 function ClearSchedule() {
     for (var index = 0; index < 9; index++) {
@@ -274,11 +327,8 @@ function SetSchedule() {
         TimeStartObjects[i - 1] = document.getElementById(StartBase + i);
         TimeEndObjects[i - 1] = document.getElementById(EndBase + i);
 
-
     }
     try {
-
-        console.log("ran");
         var UseDefault = document.querySelector('input[name="DefaultSchedule"]:checked').value;
     } catch (e) { }
     if (UseDefault === "Yes" && document.getElementById("letterDay").value != "X") {
@@ -299,63 +349,13 @@ function SetDefault() {
     var EndTime = [];
     var PeriodNames = [];
 
-    var foundDay = false;
-    for (var index = 0; index < OneThroughSevenLetter.length; index++) {//see if day selected is a 1-7 day
-        if (OneThroughSevenLetter[index] === LetterDay) {
-            foundDay = true;
-            StartTime = OneThroughSeven.PeriodStart;
-            EndTime = OneThroughSeven.PeriodEnd;
-            PeriodNames = OneThroughSeven.Period;
-            break;
-        }
-    }
-    if (!foundDay && GradeLevel == "Sen" || !foundDay && GradeLevel == "Fresh") {
+    var Schedule = GetNeededSchedule(GradeLevel, LetterDay)
 
-        for (var index = 0; index < OneThroughFourLetter.length; index++) {//see if day selected is a 1-4 day
-            if (OneThroughFourLetter[index] === LetterDay) {
+    StartTime = Schedule.PeriodStart;
+    EndTime = Schedule.PeriodEnd;
+    PeriodNames = Schedule.Period;
 
 
-                if (GradeLevel == "Sen") {
-
-                    StartTime = OneThroughFourSen.PeriodStart;
-                    EndTime = OneThroughFourSen.PeriodEnd;
-                    PeriodNames = OneThroughFourSen.Period;
-
-                } else if (GradeLevel == "Fresh") {
-                    StartTime = OneThroughFourFresh.PeriodStart;
-                    EndTime = OneThroughFourFresh.PeriodEnd;
-                    PeriodNames = OneThroughFourFresh.Period;
-                }
-                foundDay = true;
-                break;
-            }
-        }
-
-        if (!foundDay) {// if day has not been found, try 5-7 days
-            for (var index = 0; index < FiveThroughSevenLetter.length; index++) {
-                if (FiveThroughSevenLetter[index] === LetterDay) {
-
-                    if (GradeLevel == "Sen") {
-
-                        StartTime = FiveThroughSevenSen.PeriodStart;
-                        EndTime = FiveThroughSevenSen.PeriodEnd;
-                        PeriodNames = FiveThroughSevenSen.Period;
-
-                    } else if (GradeLevel == "Fresh") {
-                        StartTime = FiveThroughSevenFresh.PeriodStart;
-                        EndTime = FiveThroughSevenFresh.PeriodEnd;
-                        PeriodNames = FiveThroughSevenFresh.Period;
-                    }
-                    foundDay = true;
-                    break;
-                }
-            }
-        }
-    } else if (!foundDay) {//checks to see if schedule is set for both and is not one through seven, if so throw error
-        alert("In order to set a schedule for both, you must either use a 1-7 schedule or set your own");
-        return;
-    }
-    
     for (var index = 0; index < PeriodNames.length; index++) {
         PeriodNameObjects[index].value = PeriodNames[index];
         TimeStartObjects[index].value = StartTime[index];
@@ -367,7 +367,7 @@ function SetDefault() {
 }
 
 //used when week has normal schedule
-function AutoFillWeek(){
+function AutoFillWeek() {
     if (document.getElementById("letterDay").value != "X") {
         for (var i = 0; i < 5; i++) {
             SetDefault();
@@ -382,12 +382,12 @@ function AutoFillWeek(){
 
 function NextLetterDay() {
     var LetterOrder = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
-    
+
     for (var i = 0; i < 12; i++) {
         if (LetterOrder[i] == document.getElementById("letterDay").value) {
-           
+
             var NewNumber = i + 1;
-            if (NewNumber==12) {
+            if (NewNumber == 12) {
                 NewNumber = 0;
             }
             document.getElementById("letterDay").value = LetterOrder[NewNumber];
@@ -396,4 +396,24 @@ function NextLetterDay() {
     }
 }
 
+
+function GetNeededSchedule(ClassLevel, LetterDay) {
+
+    console.log(ClassLevel, LetterDay)
+    if (ClassLevel == "Both") {
+        ClassLevel = "Fresh"
+    }
+    var ClassLevelSchedules = ScheduleMap.get(ClassLevel)
+
+    if (OneThroughSevenLetter.includes(LetterDay)) {
+        return ClassLevelSchedules.OneToSeven
+    } else if (OneThroughFourLetter.includes(LetterDay)) {
+        return ClassLevelSchedules.OneToFour
+    } else if (FiveThroughSevenLetter.includes(LetterDay)) {
+        return ClassLevelSchedules.FiveToSeven
+    }
+
+
+
+}
 export default App;
