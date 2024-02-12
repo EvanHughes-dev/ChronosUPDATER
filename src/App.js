@@ -6,8 +6,8 @@ import ScheduleSet from './ScheduleSet/ScheduleSet.js'
 function App() {
 
     const HeadBar = (
-        <div class="header">
-            test
+        <div className="header">
+          
         </div>
     )
 

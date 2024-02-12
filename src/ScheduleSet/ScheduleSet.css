@@ -11,3 +11,13 @@ body {
 .inputField {
     margin: 2px;
 }
+
+table{
+
+    width:90%;
+}
+
+th{
+    text-align:center;
+    width:50%;
+}

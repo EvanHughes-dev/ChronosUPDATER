@@ -2,40 +2,129 @@
 import './ScheduleSet.css'
 import { GetNeededSchedule, SaveDay, IncrementWeek, GetWeekInt, GetDayOfWeek, SendAllData } from './ScheduleHandle.js';//used for support funcs
 
-const TimeStartObjects = [];
-const TimeEndObjects = [];
-const PeriodNameObjects = [];
+import {useEffect, useState } from "react"
+
+//const TimeStartObjects = [];
+//const TimeEndObjects = [];
+//const PeriodNameObjects = [];
+
 const StartBase = "PeriodStart";
 const EndBase = "PeriodEnd";
 const NameBase = "NamePeriod";
 
-const ScheduleSetDisplay = () => {
+const Prefixes=["Senior", "Freshman", '']
+
+
+
+class TimeObjects {//id values for diffrent input fields
+    constructor(prefix) {
+        this.TimeStart=[]
+        this.TimeEnd=[]
+        this.PeriodName = []
+        this.Prefix=prefix
+        for (var i = 1; i < 9; i++) {
+            
+            this.TimeStart[i-1] = prefix+StartBase+i
+            this.TimeEnd[i-1] = prefix+EndBase+i
+            this.PeriodName[i-1] = prefix+NameBase+i
+        }
+    }
+}
+
+const LevelTimeObjects = [new TimeObjects(Prefixes[1]), new TimeObjects(Prefixes[0])]
+
+const DefaultTimeObject = new TimeObjects(Prefixes[2])
+
+
+ export default function ScheduleSetDisplay () {
 
     const PeriodNum = [1, 2, 3, 4, 5, 6, 7, 8];
     const LetterDays = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
-    var Inputs = (
-        <div>
 
-            {PeriodNum.map((number) => {
+    const [ScheduleMode, setScheduleMode] = useState(false)
+     const [InputsField, setInputField] = useState(null)
+     const [Submits, setSubmits] = useState(null)
 
-                return (<div class='inputFieldHolder' name={"Period" + number}>
-                    <label for={"Period" + number}>Period {number} </label>
-                    <input class='inputField' type="text" id={"NamePeriod" + number} />
-                    <input class='inputField' type="time" id={"PeriodStart" + number} />
-                    <input class='inputField' type="time" id={"PeriodEnd" + number} />
+     var submitValues;
+     var Inputs;
+     useEffect(() => {
+        
+        if (ScheduleMode) {
+            Inputs = (
+                <center>
+                <table>
+                    <thead>
+                        <tr>
+                            {LevelTimeObjects.map((level) => {
+                                return (
+                                
+                                    <th key={level.Prefix}>
+                                        <div>{level.Prefix}</div>
 
-                </div>);
-            })
-            }
-        </div>)
+                                        {PeriodNum.map((number) => {
 
-    return (
+                                            return (
+                                                <div key={number} className='inputFieldHolder' >
+
+                                                    <label htmlFor={DefaultTimeObject.PeriodName[number - 1]}>Period {number} </label>
+                                                    <input className='inputField' type="text" id={level.PeriodName[number - 1]} readOnly />
+                                                    <input className='inputField' type="time" id={level.TimeStart[number - 1]} readOnly />
+                                                    <input className='inputField' type="time" id={level.TimeEnd[number - 1]} readOnly />
+
+                                                </div>
+                                            )
+                                        })
+                                        }
+                                            </th>
+                                
+                                )
+                             })
+                        }
+                        </tr>
+                        </thead>
+                        
+                    </table>
+                </center>
+            )
+
+            submitValues=(<div></div>)
+
+        } else {//display the normal fields
+            
+            Inputs =(
+                <div >
+
+                    {PeriodNum.map((number) => {
+                       
+                        return (
+                            <div key={number} className='inputFieldHolder' >
+                             
+                            <label htmlFor={DefaultTimeObject.PeriodName[number - 1]}>Period {number} </label>
+                            <input className='inputField' type="text" id={DefaultTimeObject.PeriodName[number-1]} readOnly />
+                            <input className='inputField' type="time" id={DefaultTimeObject.TimeStart[number - 1]} readOnly />
+                            <input className='inputField' type="time" id={DefaultTimeObject.TimeEnd[number - 1]} readOnly />
+
+                        </div>);
+                    })
+                    }
+                </div>)
+
+            submitValues = (<div><button onClick={NextDay} id="NextDay" >Next Day</button>
+                <button onClick={AutoFillWeek} id="NextDay" >Auto-Fill</button>
+                <button onClick={SendData} name="SendIt" value="Set" >Send It!</button></div>)
+           
+         }
+         setInputField(Inputs)
+         setSubmits(submitValues)
+    }, [ScheduleMode])
+
+    var body = (
         <div>
             <div name="HeaderForm">
 
             </div>
 
-            <div class="DayOfWeek" id="DayOfWeek" name="DayOfWeek">Day of week: Monday</div>
+            <div className="DayOfWeek" id="DayOfWeek" name="DayOfWeek">Day of week: Monday</div>
             <div>
 
                 <select id="ForWho" name="ForWho" onChange={SetSchedule}>
@@ -53,7 +142,9 @@ const ScheduleSetDisplay = () => {
 
                     <div name="UseDefaultSchedule">
 
-                        <button id="CustomScheduleToggle" onClick={customSchedule}>Custom Schedule</button>
+                        <button id="CustomScheduleToggle" onClick={() => {
+                            setScheduleMode( customSchedule())
+                        }}>Custom Schedule</button>
 
                     </div>
                 </div>
@@ -63,19 +154,20 @@ const ScheduleSetDisplay = () => {
 
                     {LetterDays.map((LetterDayIn) => {
                         return (
-                            <option value={LetterDayIn}> {LetterDayIn}</option>
+                            <option key={LetterDayIn } value={LetterDayIn}> {LetterDayIn}</option>
                         )
                     })}
                 </select>
                 <br />
-                {Inputs}
+                {InputsField}
 
-                <button onClick={NextDay} id="NextDay" >Next Day</button>
-                <button onClick={AutoFillWeek} id="NextDay" >Auto-Fill</button>
-                <button onClick={SendData} name="SendIt" value="Set" >Send It!</button>
+                {Submits}
             </div>
         </div>
-    );
+     );
+    
+    
+     return body
 }
 
 function NextDay() {
@@ -96,7 +188,6 @@ function NextDay() {
 }
 
 
-
 async function SendData() {
 
 
@@ -113,24 +204,21 @@ async function SendData() {
 }
 
 function ClearSchedule() {
+    
     try {
-        for (var index = 0; index < 9; index++) {
-            PeriodNameObjects[index].value = "";
-            TimeStartObjects[index].value = "00:00";
-            TimeEndObjects[index].value = "00:00";
+        for (var index = 0; index < DefaultTimeObject.PeriodName.length; index++) {
+            
+            document.getElementById(DefaultTimeObject.PeriodName[index]).value = "";
+            document.getElementById(DefaultTimeObject.TimeStart[index]).value = "00:00";
+            document.getElementById(DefaultTimeObject.TimeEnd[index]).value = "00:00";
         }
-    } catch (e) { }
+    } catch (e) {console.log(e) }
 }
 
 function SetSchedule() {
     if (customScheduleToggle)
         return
-    for (var i = 1; i < 9; i++) {
-
-        PeriodNameObjects[i - 1] = document.getElementById(NameBase + i);
-        TimeStartObjects[i - 1] = document.getElementById(StartBase + i);
-        TimeEndObjects[i - 1] = document.getElementById(EndBase + i);
-    }
+ 
 
     if (document.getElementById("letterDay").value != "X") {
         ClearSchedule();
@@ -148,18 +236,15 @@ var customScheduleToggle = false;
 function customSchedule() {
 
     customScheduleToggle = !customScheduleToggle;
-
+    
     if (customScheduleToggle) {
-        document.getElementById("CustomScheduleToggle").innerHTML = ClickToGenerateText
-
-    } else {
+        document.getElementById("CustomScheduleToggle").innerHTML = ClickToGenerateText        
+    } else {       
         document.getElementById("CustomScheduleToggle").innerHTML = ClickToCustomSchedule
-        SetSchedule()
+        
     }
-
+    return customScheduleToggle
 }
-
-
 
 function SetDefault() {
 
@@ -178,9 +263,9 @@ function SetDefault() {
 
 
     for (var index = 0; index < PeriodNames.length; index++) {
-        PeriodNameObjects[index].value = PeriodNames[index];
-        TimeStartObjects[index].value = StartTime[index];
-        TimeEndObjects[index].value = EndTime[index];
+        document.getElementById(DefaultTimeObject.PeriodName[index]).value = PeriodNames[index];
+        document.getElementById(DefaultTimeObject.TimeStart[index]).value = StartTime[index];
+        document.getElementById(DefaultTimeObject.TimeEnd[index]).value = EndTime[index];
     }
 
 }
@@ -215,4 +300,3 @@ function NextLetterDay() {
     }
 }
 
-export default ScheduleSetDisplay;
