@@ -119,18 +119,25 @@ export function SaveDay(Level) {
     var NameArray = []
     var TimeArray = []
     var LetterDay = document.getElementById("letterDay").value
-
+    console.log(LetterDay)
 
     var Schedule = GetNeededSchedule(Level, LetterDay);
-    for (var i = 0; i < Schedule.Period.length; i++) {
-        if (LetterDay == 'X') {
-            break;
-        }
+    
 
-        //get the actual values from the array for each year
-        NameArray[i] = Schedule.Period[i]
-        TimeArray[i] = Schedule.PeriodStart[i] + "-" + Schedule.PeriodEnd[i];
+    try {
+        for (var i = 0; i < Schedule.Period.length; i++) {
+            if (LetterDay == 'X') {
+                break;
+            }
+
+            //get the actual values from the array for each year
+            NameArray[i] = Schedule.Period[i]
+            TimeArray[i] = Schedule.PeriodStart[i] + "-" + Schedule.PeriodEnd[i];
+        }
+    } catch (e) {
+        console.log(e)
     }
+    
 
     const newDay = new DaySchedule(TimeArray, NameArray, LetterDay);
 
