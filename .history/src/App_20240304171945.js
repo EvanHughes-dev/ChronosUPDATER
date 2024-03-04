@@ -22,7 +22,7 @@ function App() {
           return (
             <a className="inactive" key={buttonName}>
               <Link
-                className={"BlankButton"}
+                className="BlankButton"
                 to={buttonName}
                 onClick={() => {
                   setSelected(buttonName);

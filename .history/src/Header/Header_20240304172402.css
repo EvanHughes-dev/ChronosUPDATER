@@ -17,11 +17,13 @@
        a.inactive:hover {
             background-color: #aaa;
             color: black;
+           
         }
 
         a.active {
             background-color: #04AA6D;
-            color: white; 
+            color: white;
+            
         }
 
 
@@ -29,5 +31,5 @@
     color: #f2f2f2;
     background: none;
     border: none;
-    padding: 0px;
+   
 }

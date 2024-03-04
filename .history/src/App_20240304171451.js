@@ -3,11 +3,18 @@ import "./App.css";
 import ScheduleSet from "./ScheduleSet/ScheduleSet.js";
 import { useEffect, useState } from "react";
 import "./Header/Header.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
 
 const HeaderButtons = ["Default", "Custom"];
 function App() {
-  const [currentSelect, setSelected] = useState(HeaderButtons[0]);
+  const location = useLocation();
+
   const Header = () => {
     return (
       <div className="topnav">
@@ -21,13 +28,7 @@ function App() {
           }
           return (
             <a className="inactive" key={buttonName}>
-              <Link
-                className={"BlankButton"}
-                to={buttonName}
-                onClick={() => {
-                  setSelected(buttonName);
-                }}
-              >
+              <Link className="BlankButton" to={buttonName}>
                 {buttonName}
               </Link>
             </a>

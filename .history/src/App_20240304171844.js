@@ -7,8 +7,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 const HeaderButtons = ["Default", "Custom"];
 function App() {
-  const [currentSelect, setSelected] = useState(HeaderButtons[0]);
+  const [currentSelect, setSelected] = useEffect(HeaderButtons[0]
   const Header = () => {
+
     return (
       <div className="topnav">
         {HeaderButtons.map((buttonName) => {
@@ -21,13 +22,7 @@ function App() {
           }
           return (
             <a className="inactive" key={buttonName}>
-              <Link
-                className={"BlankButton"}
-                to={buttonName}
-                onClick={() => {
-                  setSelected(buttonName);
-                }}
-              >
+              <Link className="BlankButton" to={buttonName}>
                 {buttonName}
               </Link>
             </a>

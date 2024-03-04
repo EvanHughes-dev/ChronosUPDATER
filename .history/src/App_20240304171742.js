@@ -4,15 +4,14 @@ import ScheduleSet from "./ScheduleSet/ScheduleSet.js";
 import { useEffect, useState } from "react";
 import "./Header/Header.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
+import { useHistory, useLocation } from "react-router-dom";
 const HeaderButtons = ["Default", "Custom"];
 function App() {
-  const [currentSelect, setSelected] = useState(HeaderButtons[0]);
   const Header = () => {
     return (
       <div className="topnav">
         {HeaderButtons.map((buttonName) => {
-          if (buttonName === currentSelect) {
+          if ("/" + buttonName === useLocation().pathname) {
             return (
               <a className="active" key={buttonName}>
                 {buttonName}
@@ -21,13 +20,7 @@ function App() {
           }
           return (
             <a className="inactive" key={buttonName}>
-              <Link
-                className={"BlankButton"}
-                to={buttonName}
-                onClick={() => {
-                  setSelected(buttonName);
-                }}
-              >
+              <Link className="BlankButton" to={buttonName}>
                 {buttonName}
               </Link>
             </a>
