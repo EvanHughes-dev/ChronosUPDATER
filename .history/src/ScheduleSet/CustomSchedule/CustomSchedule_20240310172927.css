@@ -1,0 +1,46 @@
+.HeaderObject{
+    width:100%;
+    display: flex;
+    min-height: 30px;
+}
+.inputFieldHolder {
+    padding-left: 3px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+.inputField {
+    margin: 2px;
+}
+
+table{
+
+    width:90%;
+}
+
+th{
+    text-align:center;
+    width:50%;
+}
+
+.radioButtonObject{
+    width:20%;
+    float:left;
+   
+}
+
+.AddButton{
+    content: '';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid black;
+    font-size: 30px;
+    color: black;
+}
+
+.bigplus:before {
+    content: '+';
+  }

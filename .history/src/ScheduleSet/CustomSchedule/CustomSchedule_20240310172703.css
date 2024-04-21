@@ -1,0 +1,42 @@
+.HeaderObject{
+    width:100%;
+    display: flex;
+    min-height: 30px;
+}
+.inputFieldHolder {
+    padding-left: 3px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+.inputField {
+    margin: 2px;
+}
+
+table{
+
+    width:90%;
+}
+
+th{
+    text-align:center;
+    width:50%;
+}
+
+.radioButtonObject{
+    width:20%;
+    float:left;
+   
+}
+
+.AddButton{
+    border:none;
+    background: none;
+    width:100px;
+    height: 100px;
+}
+
+.AddButtonCircle{
+    border:solid;
+    border-radius: 100%;
+    
+}

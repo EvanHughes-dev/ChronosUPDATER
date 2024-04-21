@@ -1,0 +1,11 @@
+.ParentDiv{
+
+}
+.LoginButton{
+   
+   background-color: lightcoral;
+   border: none;
+   width:45%;
+   height: 45%;
+   border-radius: 30%;
+}
