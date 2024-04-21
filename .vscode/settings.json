@@ -2,5 +2,9 @@
     "github.copilot.enable": {
         "plaintext": "true",
         "javascript": "true"
-    }
+    },
+    "cSpell.words": [
+        "appspot",
+        "WZHGE"
+    ]
 }
