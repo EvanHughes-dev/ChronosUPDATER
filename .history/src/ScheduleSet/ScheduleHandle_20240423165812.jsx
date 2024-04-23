@@ -235,14 +235,24 @@ async function SendAllData(targetGrade) {
     const Tuesday = CreateObject(Schedules.Tuesday);
     const Wednesday = CreateObject(Schedules.Wednesday);
     const Thursday = CreateObject(Schedules.Thursday);
-    const Friday = CreateObject(Schedules.Friday);
+    const Monday = CreateObject(Schedules.Monday);
     console.log(Monday);
     await setDoc(doc(db, "Schedule", targetGrade), {
       Monday: Monday,
-      Tuesday: Tuesday,
-      Wednesday: Wednesday,
-      Thursday: Thursday,
-      Friday: Friday,
+
+      // Tuesday: Tuesday,
+
+      // WenTimes: Schedules.Wednesday.time.join("/"),
+      // WenPeriods: Schedules.Wednesday.name.join("/"),
+      // WenLetter: Schedules.Wednesday.LetterName,
+
+      // ThuTimes: Schedules.Thursday.time.join("/"),
+      // ThuPeriods: Schedules.Thursday.name.join("/"),
+      // ThuLetter: Schedules.Thursday.LetterName,
+
+      // FriTimes: Schedules.Friday.time.join("/"),
+      // FriPeriods: Schedules.Friday.name.join("/"),
+      // FriLetter: Schedules.Friday.LetterName,
     });
   } catch (e) {
     console.log(e);

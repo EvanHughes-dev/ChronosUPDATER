@@ -174,12 +174,13 @@ async function GetDayData(day) {
   console.log("Ran");
   await getDoc(doc(db, "Schedule", "Fresh")).then((foundDoc) => {
     if (foundDoc.exists) {
-      var currentData = foundDoc.data()[day.DayOfWeek]; //get the date based off selected day
+      var currentDatafoundDoc.data()[day.DayOfWeek];
 
+      console.log();
       const TempData = {
-        PeriodNames: currentData.PeriodNames.split("/"),
-        PeriodTimes: currentData.PeriodTimes.split("/"),
-        LetterDay: currentData.LetterDay,
+        PeriodNames: foundDoc.data()[dayAbbreviation + "Periods"],
+        PeriodTimes: foundDoc.data()[dayAbbreviation + "Times"],
+        LetterDay: foundDoc.data()[dayAbbreviation + "Letter"],
         Prefix: "Fresh",
       };
 
@@ -188,13 +189,11 @@ async function GetDayData(day) {
   });
   return await getDoc(doc(db, "Schedule", "Sen")).then((foundDoc) => {
     if (foundDoc.exists) {
-      var currentData = foundDoc.data()[day.DayOfWeek]; //get the date based off selected day
-
       const TempData = {
-        PeriodNames: currentData.PeriodNames.split("/"),
-        PeriodTimes: currentData.PeriodTimes.split("/"),
-        LetterDay: currentData.LetterDay,
-        Prefix: "Fresh",
+        PeriodNames: foundDoc.data()[dayAbbreviation + "Periods"],
+        PeriodTimes: foundDoc.data()[dayAbbreviation + "Times"],
+        LetterDay: foundDoc.data()[dayAbbreviation + "Letter"],
+        Prefix: "Sen",
       };
 
       YearData[1] = TempData;

@@ -174,12 +174,29 @@ async function GetDayData(day) {
   console.log("Ran");
   await getDoc(doc(db, "Schedule", "Fresh")).then((foundDoc) => {
     if (foundDoc.exists) {
-      var currentData = foundDoc.data()[day.DayOfWeek]; //get the date based off selected day
-
+      var currentData;
+      switch (day.DayOfWeek) {
+        case 2:
+          currentData = foundDoc.data().Monday;
+          break;
+        case 3:
+          currentData = foundDoc.data().Tuesday;
+          break;
+        case 4:
+          currentData = foundDoc.data().Wednesday;
+          break;
+        case 5:
+          currentData = foundDoc.data().Thursday;
+          break;
+        case 6:
+          currentData = foundDoc.data().Friday;
+          break;
+      }
+      console.log(day);
       const TempData = {
-        PeriodNames: currentData.PeriodNames.split("/"),
-        PeriodTimes: currentData.PeriodTimes.split("/"),
-        LetterDay: currentData.LetterDay,
+        PeriodNames: foundDoc.data()[dayAbbreviation + "Periods"],
+        PeriodTimes: foundDoc.data()[dayAbbreviation + "Times"],
+        LetterDay: foundDoc.data()[dayAbbreviation + "Letter"],
         Prefix: "Fresh",
       };
 
@@ -188,13 +205,11 @@ async function GetDayData(day) {
   });
   return await getDoc(doc(db, "Schedule", "Sen")).then((foundDoc) => {
     if (foundDoc.exists) {
-      var currentData = foundDoc.data()[day.DayOfWeek]; //get the date based off selected day
-
       const TempData = {
-        PeriodNames: currentData.PeriodNames.split("/"),
-        PeriodTimes: currentData.PeriodTimes.split("/"),
-        LetterDay: currentData.LetterDay,
-        Prefix: "Fresh",
+        PeriodNames: foundDoc.data()[dayAbbreviation + "Periods"],
+        PeriodTimes: foundDoc.data()[dayAbbreviation + "Times"],
+        LetterDay: foundDoc.data()[dayAbbreviation + "Letter"],
+        Prefix: "Sen",
       };
 
       YearData[1] = TempData;

@@ -222,27 +222,27 @@ async function SendAllData(targetGrade) {
   var Schedules = WeekMap.get(targetGrade);
 
   try {
-    const CreateObject = (day) => {
-      const Object = {
-        PeriodTimes: day.time.join("/"),
-        PeriodNames: day.name.join("/"),
-        LetterDay: day.LetterName,
-      };
-      return Object;
+    const Monday = {
+      MonTimes: Schedules.Monday.time.join("/"),
+      MonPeriods: Schedules.Monday.name.join("/"),
+      MonLetter: Schedules.Monday.LetterName,
     };
-
-    const Monday = CreateObject(Schedules.Monday);
-    const Tuesday = CreateObject(Schedules.Tuesday);
-    const Wednesday = CreateObject(Schedules.Wednesday);
-    const Thursday = CreateObject(Schedules.Thursday);
-    const Friday = CreateObject(Schedules.Friday);
-    console.log(Monday);
     await setDoc(doc(db, "Schedule", targetGrade), {
-      Monday: Monday,
-      Tuesday: Tuesday,
-      Wednesday: Wednesday,
-      Thursday: Thursday,
-      Friday: Friday,
+      TueTimes: Schedules.Tuesday.time.join("/"),
+      TuePeriods: Schedules.Tuesday.name.join("/"),
+      TueLetter: Schedules.Tuesday.LetterName,
+
+      WenTimes: Schedules.Wednesday.time.join("/"),
+      WenPeriods: Schedules.Wednesday.name.join("/"),
+      WenLetter: Schedules.Wednesday.LetterName,
+
+      ThuTimes: Schedules.Thursday.time.join("/"),
+      ThuPeriods: Schedules.Thursday.name.join("/"),
+      ThuLetter: Schedules.Thursday.LetterName,
+
+      FriTimes: Schedules.Friday.time.join("/"),
+      FriPeriods: Schedules.Friday.name.join("/"),
+      FriLetter: Schedules.Friday.LetterName,
     });
   } catch (e) {
     console.log(e);

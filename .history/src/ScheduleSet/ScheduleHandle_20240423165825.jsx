@@ -239,10 +239,8 @@ async function SendAllData(targetGrade) {
     console.log(Monday);
     await setDoc(doc(db, "Schedule", targetGrade), {
       Monday: Monday,
+
       Tuesday: Tuesday,
-      Wednesday: Wednesday,
-      Thursday: Thursday,
-      Friday: Friday,
     });
   } catch (e) {
     console.log(e);

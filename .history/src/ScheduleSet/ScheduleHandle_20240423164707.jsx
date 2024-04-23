@@ -11,13 +11,14 @@ import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 
 // Firebase configuration
 const firebase_creds = {
-  apiKey: "AIzaSyDp8-uvDrL2jzzLe20guFgLaRIJZniNHoY",
-  authDomain: "chronosdb.firebaseapp.com",
-  projectId: "chronosdb",
-  storageBucket: "chronosdb.appspot.com",
-  messagingSenderId: "590754783806",
-  appId: "1:590754783806:web:9b08077ff0514d2ff0e76f",
-  measurementId: "G-DLV9VS91K9",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: "chronos-96d4f.firebaseapp.com",
+  databaseURL: "https://chronos-96d4f.firebaseio.com",
+  projectId: "chronos-96d4f",
+  storageBucket: "chronos-96d4f.appspot.com",
+  messagingSenderId: "866705537581",
+  appId: "1:866705537581:web:5ba4523272685649c116a4",
+  measurementId: "G-RK77WZHGE9",
 };
 
 // Initialize Firebase app
@@ -222,27 +223,26 @@ async function SendAllData(targetGrade) {
   var Schedules = WeekMap.get(targetGrade);
 
   try {
-    const CreateObject = (day) => {
-      const Object = {
-        PeriodTimes: day.time.join("/"),
-        PeriodNames: day.name.join("/"),
-        LetterDay: day.LetterName,
-      };
-      return Object;
-    };
-
-    const Monday = CreateObject(Schedules.Monday);
-    const Tuesday = CreateObject(Schedules.Tuesday);
-    const Wednesday = CreateObject(Schedules.Wednesday);
-    const Thursday = CreateObject(Schedules.Thursday);
-    const Friday = CreateObject(Schedules.Friday);
-    console.log(Monday);
     await setDoc(doc(db, "Schedule", targetGrade), {
-      Monday: Monday,
-      Tuesday: Tuesday,
-      Wednesday: Wednesday,
-      Thursday: Thursday,
-      Friday: Friday,
+      MonTimes: Schedules.Monday.time.join("/"),
+      MonPeriods: Schedules.Monday.name.join("/"),
+      MonLetter: Schedules.Monday.LetterName,
+
+      TueTimes: Schedules.Tuesday.time.join("/"),
+      TuePeriods: Schedules.Tuesday.name.join("/"),
+      TueLetter: Schedules.Tuesday.LetterName,
+
+      WenTimes: Schedules.Wednesday.time.join("/"),
+      WenPeriods: Schedules.Wednesday.name.join("/"),
+      WenLetter: Schedules.Wednesday.LetterName,
+
+      ThuTimes: Schedules.Thursday.time.join("/"),
+      ThuPeriods: Schedules.Thursday.name.join("/"),
+      ThuLetter: Schedules.Thursday.LetterName,
+
+      FriTimes: Schedules.Friday.time.join("/"),
+      FriPeriods: Schedules.Friday.name.join("/"),
+      FriLetter: Schedules.Friday.LetterName,
     });
   } catch (e) {
     console.log(e);
