@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ChronosUPDATER/static/css/main.e1ed08ce.css",
-    "main.js": "/ChronosUPDATER/static/js/main.41892555.js",
+    "main.js": "/ChronosUPDATER/static/js/main.ba7fa238.js",
     "static/js/787.c152051e.chunk.js": "/ChronosUPDATER/static/js/787.c152051e.chunk.js",
     "index.html": "/ChronosUPDATER/index.html",
     "main.e1ed08ce.css.map": "/ChronosUPDATER/static/css/main.e1ed08ce.css.map",
-    "main.41892555.js.map": "/ChronosUPDATER/static/js/main.41892555.js.map",
+    "main.ba7fa238.js.map": "/ChronosUPDATER/static/js/main.ba7fa238.js.map",
     "787.c152051e.chunk.js.map": "/ChronosUPDATER/static/js/787.c152051e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e1ed08ce.css",
-    "static/js/main.41892555.js"
+    "static/js/main.ba7fa238.js"
   ]
 }
