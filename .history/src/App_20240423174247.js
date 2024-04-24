@@ -50,16 +50,17 @@ function App() {
   const handleLogin = async (e) => {
     const UserNameValue = document.getElementById("UserName").value;
     const PasswordValue = document.getElementById("UserPassword").value;
-
+    console.log("CKI");
     e.preventDefault();
     await getDoc(doc(db, "Login", "Login")).then((foundDoc) => {
       if (foundDoc.exists) {
         if (
           foundDoc.data().Password === PasswordValue &&
-          foundDoc.data().id.toString() === UserNameValue
+          foundDoc.data().id === UserNameValue
         ) {
           localStorage.setItem("ReactLoginSetTrueChronos", "SavedUser");
           setUser(true);
+          console.log("Logged");
         }
       } else {
         console.log(foundDoc.data().Password);

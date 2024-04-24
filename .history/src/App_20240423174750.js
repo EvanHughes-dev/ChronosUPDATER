@@ -54,6 +54,7 @@ function App() {
     e.preventDefault();
     await getDoc(doc(db, "Login", "Login")).then((foundDoc) => {
       if (foundDoc.exists) {
+        console.log(foundDoc.data().id === UserNameValue);
         if (
           foundDoc.data().Password === PasswordValue &&
           foundDoc.data().id.toString() === UserNameValue

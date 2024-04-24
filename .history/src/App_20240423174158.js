@@ -56,10 +56,11 @@ function App() {
       if (foundDoc.exists) {
         if (
           foundDoc.data().Password === PasswordValue &&
-          foundDoc.data().id.toString() === UserNameValue
+          foundDoc.data().id === UserNameValue
         ) {
           localStorage.setItem("ReactLoginSetTrueChronos", "SavedUser");
           setUser(true);
+          console.log("Logged");
         }
       } else {
         console.log(foundDoc.data().Password);
@@ -117,7 +118,8 @@ function App() {
         <div className="FullScreenObject">
           <form
             className="LoginObject"
-            onSubmit={(e) => {
+            onSubmit={() => {
+              console.log("CKI");
               handleLogin(e);
             }}
           >

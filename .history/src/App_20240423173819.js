@@ -56,7 +56,7 @@ function App() {
       if (foundDoc.exists) {
         if (
           foundDoc.data().Password === PasswordValue &&
-          foundDoc.data().id.toString() === UserNameValue
+          foundDoc.data().id === UserNameValue
         ) {
           localStorage.setItem("ReactLoginSetTrueChronos", "SavedUser");
           setUser(true);
