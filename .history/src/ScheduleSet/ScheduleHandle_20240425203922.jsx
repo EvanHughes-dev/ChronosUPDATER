@@ -261,11 +261,9 @@ async function SendNewData(data, day) {
       var LetterDay = document.getElementById("LetterDaySelect").value;
       level.PeriodNames.map(async (value, index) => {
         PeriodTimes[index] =
-          document.getElementById(level.Prefix + "Period" + index + "Start")
-            .value +
+          document.getElementById(level + "Period" + index + "Start").value +
           "-" +
-          document.getElementById(level.Prefix + "Period" + index + "End")
-            .value;
+          document.getElementById(level + "Period" + index + "End").value;
 
         PeriodNames[index] = value;
       });

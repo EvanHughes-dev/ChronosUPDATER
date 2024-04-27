@@ -255,52 +255,60 @@ async function SendNewData(data, day) {
   try {
     data.map(async (level) => {
       var PeriodTimes = [];
-      console.log(level);
-      var PeriodNames = [];
 
-      var LetterDay = document.getElementById("LetterDaySelect").value;
+      var PeriodName = [];
+      var LetterDay;
+
+      LetterDay = document.getElementById("LetterDaySelect").value;
       level.PeriodNames.map(async (value, index) => {
         PeriodTimes[index] =
-          document.getElementById(level.Prefix + "Period" + index + "Start")
-            .value +
+          document.getElementById(level + "Period" + index + "Start").value +
           "-" +
-          document.getElementById(level.Prefix + "Period" + index + "End")
-            .value;
+          document.getElementById(level + "Period" + index + "End").value;
 
-        PeriodNames[index] = value;
+        PeriodName[index] = PeriodName;
       });
 
       const ref = doc(db, "Schedule", level.Prefix);
       const TimeObject = {
         PeriodTimes: PeriodTimes.join("/"),
-        PeriodNames: PeriodNames.join("/"),
-        LetterDay: LetterDay,
+        PeriodNames: day.name.join("/"),
+        LetterDay: day.LetterName,
       };
-      console.log(TimeObject);
       switch (day.DayOfWeek) {
         case "Monday":
           await updateDoc(ref, {
-            Monday: TimeObject,
+            MonTimes: PeriodTimes,
+            MonPeriods: PeriodName,
+            MonLetter: LetterDay,
           });
           break;
         case "Tuesday":
           await updateDoc(ref, {
-            Tuesday: TimeObject,
+            TueTimes: PeriodTimes,
+            TuePeriods: PeriodName,
+            TueLetter: LetterDay,
           });
           break;
         case "Wednesday":
           await updateDoc(ref, {
-            Wednesday: TimeObject,
+            WenTimes: PeriodTimes,
+            WenPeriods: PeriodName,
+            WenLetter: LetterDay,
           });
           break;
         case "Thursday":
           await updateDoc(ref, {
-            Thursday: TimeObject,
+            ThuTimes: PeriodTimes,
+            ThuPeriods: PeriodName,
+            ThuLetter: LetterDay,
           });
           break;
         case "Friday":
           await updateDoc(ref, {
-            Friday: TimeObject,
+            FriTimes: PeriodTimes,
+            FriPeriods: PeriodName,
+            FriLetter: LetterDay,
           });
           break;
       }

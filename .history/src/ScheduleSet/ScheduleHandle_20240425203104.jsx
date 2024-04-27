@@ -255,28 +255,25 @@ async function SendNewData(data, day) {
   try {
     data.map(async (level) => {
       var PeriodTimes = [];
-      console.log(level);
+
       var PeriodNames = [];
 
       var LetterDay = document.getElementById("LetterDaySelect").value;
       level.PeriodNames.map(async (value, index) => {
         PeriodTimes[index] =
-          document.getElementById(level.Prefix + "Period" + index + "Start")
-            .value +
+          document.getElementById(level + "Period" + index + "Start").value +
           "-" +
-          document.getElementById(level.Prefix + "Period" + index + "End")
-            .value;
+          document.getElementById(level + "Period" + index + "End").value;
 
         PeriodNames[index] = value;
       });
-
+      console.log(PeriodNames);
       const ref = doc(db, "Schedule", level.Prefix);
       const TimeObject = {
         PeriodTimes: PeriodTimes.join("/"),
         PeriodNames: PeriodNames.join("/"),
-        LetterDay: LetterDay,
+        LetterDay: day.LetterName,
       };
-      console.log(TimeObject);
       switch (day.DayOfWeek) {
         case "Monday":
           await updateDoc(ref, {
@@ -290,17 +287,23 @@ async function SendNewData(data, day) {
           break;
         case "Wednesday":
           await updateDoc(ref, {
-            Wednesday: TimeObject,
+            WenTimes: PeriodTimes,
+            WenPeriods: PeriodNames,
+            WenLetter: LetterDay,
           });
           break;
         case "Thursday":
           await updateDoc(ref, {
-            Thursday: TimeObject,
+            ThuTimes: PeriodTimes,
+            ThuPeriods: PeriodNames,
+            ThuLetter: LetterDay,
           });
           break;
         case "Friday":
           await updateDoc(ref, {
-            Friday: TimeObject,
+            FriTimes: PeriodTimes,
+            FriPeriods: PeriodNames,
+            FriLetter: LetterDay,
           });
           break;
       }

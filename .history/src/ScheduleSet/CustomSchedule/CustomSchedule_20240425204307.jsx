@@ -64,19 +64,19 @@ const CustomSchedule = () => {
                   <input
                     className="inputField"
                     type="text"
-                    id={PeriodName + level.Prefix}
+                    id={PeriodName + level}
                     defaultValue={PeriodName}
                   />
                   <input
                     className="inputField"
                     type="time"
-                    id={level.Prefix + "Period" + index + "Start"}
+                    id={level + "Period" + index + "Start"}
                     defaultValue={level.PeriodTimes[index].slice(0, 5)}
                   />
                   <input
                     className="inputField"
                     type="time"
-                    id={level.Prefix + "Period" + index + "End"}
+                    id={level + "Period" + index + "End"}
                     defaultValue={level.PeriodTimes[index].slice(6, 11)}
                   />
                 </div>
@@ -194,7 +194,7 @@ async function GetDayData(day) {
         PeriodNames: currentData.PeriodNames.split("/"),
         PeriodTimes: currentData.PeriodTimes.split("/"),
         LetterDay: currentData.LetterDay,
-        Prefix: "Sen",
+        Prefix: "Fres",
       };
 
       YearData[1] = TempData;
