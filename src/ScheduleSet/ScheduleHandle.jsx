@@ -12,12 +12,13 @@ import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 // Firebase configuration
 const firebase_creds = {
   apiKey: process.env.API_KEY,
+
   authDomain: "chronosdb.firebaseapp.com",
   projectId: "chronosdb",
   storageBucket: "chronosdb.appspot.com",
   messagingSenderId: "590754783806",
-  appId: "1:590754783806:web:9b08077ff0514d2ff0e76f",
-  measurementId: "G-DLV9VS91K9",
+  appId: "1:590754783806:web:bd1360bf42c9711ff0e76f",
+  measurementId: "G-JX1T2P9LDV",
 };
 
 // Initialize Firebase app
