@@ -7,13 +7,13 @@ Hopefully, if you are reading this then whomever passed **STEM Chronos** onto yo
 
 ## Usage
 
-This application is designed to be hosted on github using their pages application. It was built using react, but is published as plain HTML. The application can be accessed using the link **INSERT LINK HERE** or by going to settings > pages > and clicking the link there.
+This application is designed to be hosted on Git Hub using their pages application. It was built using React but is published as a plain HTML page to comply with Git Hub. If you so wish, you may download the source code and use it via a locally hosted web server, but as of 2024, this feature is blocked on school laptops. The application can be accessed using the link **INSERT LINK HERE** or by going to settings > pages > and clicking the link there.
 
-Once you have entered the page, the first time you visit the site on a new device or browser, it will prompt you for a username and password. These can be found on the firebase you should have already been shared into. If you do not have them and have not been shared into the firebase, contact either Mr.Krause or previous maintainer. Once you have logged in, you will not be prompted again unless you change devices or clear your cookies.
+Once you have entered the page, the first time you visit the site on a new device or browser, it will prompt you for a username and password. These can be found on the firebase you should have already been shared into. If you do not have them and have not been shared into the firebase, contact either Mr.Krause or the previous maintainer. Once you have logged in, you will not be prompted again unless you change devices or clear your cookies.
 
 ### Default
 
-The first screen titled **Default** allows you to generate the weeks schedule for both grade levels at the same time. For the first day, Monday, select the letter day for that day. From there, you can either choose to Auto-Fill the rest of the week or manually generate it.
+The first screen titled **Default** allows you to generate the weekly schedule for both grade levels at the same time. For the first day, Monday, select the letter day for that day. From there, you can either choose to Auto-Fill the rest of the week or manually generate it.
 
 #### Auto-Fill
 
@@ -27,4 +27,4 @@ Use this only if there is something different about the week (Half day or day of
 
 ### Schedule Editing
 
-As of writing this doc, this feature us still not functional, but major changes to both this application and **STEM Chronos** is planned in order to make it functional by the summer of 2024
+To update the schedule, travel to the tab labeled **Custome** and the day you would like to edit. The application will automatically pull the current schedule stored in the firebase. This feature is still underdeveloped, and as of right now only allows for editing of times and period names, but will soon include the ability to add and remove periods from the day's calender. For now, any advanced modifications need to be completed from the firebase manually. 
