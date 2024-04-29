@@ -21,7 +21,7 @@ To Auto-Fill, simply click the button titled **Auto-Fill**, and the application 
 
 #### Manual Generation
 
-Use this only if there is something different about the week (Half day or day off school). Hit the **Next Day** button and repeat the process for the next day. The application will change the letter day to the next day (From A to B), but feel free to change it as needed. When you have reached the day that is different, you can hit **Auto-Fill** to finish the week normally, or you can finish it manually and hit **Send It!** to save the schedule.
+Use this only if there is something different about the week (Half day or day off school). Hit the **Next Day** button and repeat the process for the next day. The application will change the letter day to the next day (From A to B), but feel free to change it as needed. When you have reached the day that is different, you can hit **Auto-Fill** to finish the week normally, or you can finish it manually and hit **Send It!** to save the schedule. **Ability to auto-generate half dates is currently being beta tested as of May 2024**
 
 **Default** does not allow for edits to be made to the schedule, only auto-generation
 
