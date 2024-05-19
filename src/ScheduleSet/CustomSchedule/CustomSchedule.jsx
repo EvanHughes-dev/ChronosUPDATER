@@ -171,7 +171,7 @@ async function GetDayData(day) {
   }
   var YearData = [];
   const dayAbbreviation = DayOfWeek[day.DayOfWeek];
-  console.log("Ran");
+
   await getDoc(doc(db, "Schedule", "Fresh")).then((foundDoc) => {
     if (foundDoc.exists) {
       var currentData = foundDoc.data()[day.DayOfWeek]; //get the date based off selected day

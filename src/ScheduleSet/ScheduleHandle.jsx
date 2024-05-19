@@ -165,7 +165,6 @@ function SaveDay(Level) {
   var NameArray = [];
   var TimeArray = [];
   var LetterDay = document.getElementById("letterDay").value;
-  console.log(LetterDay);
 
   var Schedule = GetNeededSchedule(LetterDay, Level);
 
@@ -278,32 +277,11 @@ async function SendNewData(data, day) {
         LetterDay: LetterDay,
       };
       console.log(TimeObject);
-      switch (day.DayOfWeek) {
-        case "Monday":
-          await updateDoc(ref, {
-            Monday: TimeObject,
-          });
-          break;
-        case "Tuesday":
-          await updateDoc(ref, {
-            Tuesday: TimeObject,
-          });
-          break;
-        case "Wednesday":
-          await updateDoc(ref, {
-            Wednesday: TimeObject,
-          });
-          break;
-        case "Thursday":
-          await updateDoc(ref, {
-            Thursday: TimeObject,
-          });
-          break;
-        case "Friday":
-          await updateDoc(ref, {
-            Friday: TimeObject,
-          });
-          break;
+
+      if (DaysOfWeekFull.includes(day.DayOfWeek)) {
+        await updateDoc(ref, {
+          [day.DayOfWeek]: TimeObject,
+        });
       }
     });
   } catch {}
