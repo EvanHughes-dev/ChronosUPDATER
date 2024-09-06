@@ -7,7 +7,7 @@ Hopefully, if you are reading this then whomever passed **STEM Chronos** onto yo
 
 ## Usage
 
-This application is designed to be hosted on Git Hub using their pages application. It was built using React but is published as a plain HTML page to comply with Git Hub. If you so wish, you may download the source code and use it via a locally hosted web server, but as of 2024, this feature is blocked on school laptops. The application can be accessed using the link **INSERT LINK HERE** or by going to settings > pages > and clicking the link there.
+This application is designed to be hosted on Git Hub using their pages application. It was built using React but is published as a plain HTML page to comply with Git Hub. If you so wish, you may download the source code and use it via a locally hosted web server, but as of 2024, this feature is blocked on school laptops. The application can be accessed using the link **https://evanhughes-dev.github.io/ChronosUPDATER/** or by going to settings > pages > and clicking the link there.
 
 Once you have entered the page, the first time you visit the site on a new device or browser, it will prompt you for a username and password. These can be found on the firebase you should have already been shared into. If you do not have them and have not been shared into the firebase, contact either Mr.Krause or the previous maintainer. Once you have logged in, you will not be prompted again unless you change devices or clear your cookies.
 
