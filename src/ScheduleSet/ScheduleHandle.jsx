@@ -8,11 +8,10 @@
 /**** BEGINNING OF FIREBASE CONFIGURATION AND DATABASE SETUP ****/
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
-
+import DefaultSchedules from "./DefaultSchedule.json";
 // Firebase configuration
 const firebase_creds = {
   apiKey: process.env.API_KEY,
-
   authDomain: "chronosdb.firebaseapp.com",
   projectId: "chronosdb",
   storageBucket: "chronosdb.appspot.com",
@@ -46,6 +45,7 @@ class WeekSchedule {
     this.Thursday = Thursday;
     this.Friday = Friday;
   }
+
   SetMonday(Monday) {
     //used to assign each day
     this.Monday = Monday;
@@ -64,71 +64,6 @@ class WeekSchedule {
   }
 }
 
-const OneThroughSeven = {
-  //Full schedule for 1-7 days
-  Period: ["1st", "2nd", "3rd", "4th", "L&L", "5th", "6th", "7th"],
-  PeriodStart: [
-    "07:40",
-    "08:35",
-    "09:25",
-    "10:15",
-    "11:03",
-    "12:08",
-    "12:58",
-    "13:48",
-  ],
-  PeriodEnd: [
-    "08:31",
-    "09:21",
-    "10:11",
-    "11:01",
-    "12:06",
-    "12:54",
-    "13:44",
-    "14:35",
-  ],
-};
-
-const OneThroughFourSen = {
-  //1-4 schedule for Juniors/Seniors
-  Period: ["1st", "2nd", "3rd", "Lunch", "4th"],
-  PeriodStart: ["07:40", "09:19", "10:53", "12:27", "13:01"],
-  PeriodEnd: ["09:15", "10:49", "12:23", "12:57", "14:35"],
-};
-const OneThroughFourFresh = {
-  //1-4 schedule for Freshman/Sophomores
-  Period: ["1st", "2nd", "Lunch", "3rd", "4th"],
-  PeriodStart: ["07:40", "09:19", "10:53", "11:27", "13:01"],
-  PeriodEnd: ["09:15", "10:49", "11:23", "12:57", "14:35"],
-};
-
-const FiveThroughSevenSen = {
-  Period: ["5th", "Advisory", "6th", "7th", "Lunch", "Seminar"],
-  PeriodStart: ["07:40", "09:19", "09:58", "11:32", "13:06", "13:40"],
-  PeriodEnd: ["09:15", "09:54", "11:28", "13:02", "13:36", "14:35"],
-};
-const FiveThroughSevenFresh = {
-  Period: ["5th", "Advisory", "6th", "Lunch", "7th", "Seminar"],
-  PeriodStart: ["07:40", "09:19", "09:58", "11:32", "12:05", "13:40"],
-  PeriodEnd: ["09:15", "09:54", "11:28", "12:02", "13:36", "14:35"],
-};
-
-const SenSchedules = {
-  OneToSeven: OneThroughSeven,
-  OneToFour: OneThroughFourSen,
-  FiveToSeven: FiveThroughSevenSen,
-};
-
-const FreshSchedules = {
-  OneToSeven: OneThroughSeven,
-  OneToFour: OneThroughFourFresh,
-  FiveToSeven: FiveThroughSevenFresh,
-};
-
-const ScheduleMap = new Map([
-  ["Sen", SenSchedules],
-  ["Fresh", FreshSchedules],
-]);
 /**** END SCHEDULE DECLARATION ****/
 
 const OneThroughSevenLetter = ["A", "D", "E", "H", "I", "L"];
@@ -147,17 +82,24 @@ const WeekMap = new Map([
 /**** END DECLARATIONS *****/
 
 /**** BEGIN FUNCTIONS *****/
-function GetNeededSchedule(LetterDay, level) {
-  var ClassLevel = level;
 
-  var ClassLevelSchedules = ScheduleMap.get(ClassLevel);
-
-  if (OneThroughSevenLetter.includes(LetterDay)) {
-    return ClassLevelSchedules.OneToSeven;
-  } else if (OneThroughFourLetter.includes(LetterDay)) {
-    return ClassLevelSchedules.OneToFour;
-  } else if (FiveThroughSevenLetter.includes(LetterDay)) {
-    return ClassLevelSchedules.FiveToSeven;
+/**
+ *
+ * Load the needed schedule from DefaultSchedule.json
+ * @param {string} letterDay - The letter day to get the schedule for
+ * @param {string} level - Grade level to get the schedule for
+ *@return {JSON} A json object in the form { "PERIOD" : [START, END], }
+ */
+function GetNeededSchedule(letterDay, level) {
+  var classLevelSchedule = DefaultSchedules[level];
+  if (OneThroughSevenLetter.includes(letterDay)) {
+    return classLevelSchedule["1-7"];
+  } else if (OneThroughFourLetter.includes(letterDay)) {
+    return classLevelSchedule["1-4"];
+  } else if (FiveThroughSevenLetter.includes(letterDay)) {
+    return classLevelSchedule["5-7"];
+  } else {
+    console.error(`Invalid letter day ${letterDay}`);
   }
 }
 
