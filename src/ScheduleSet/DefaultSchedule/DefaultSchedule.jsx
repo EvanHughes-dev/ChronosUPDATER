@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import {
@@ -8,183 +8,171 @@ import {
   GetWeekInt,
   GetDayOfWeek,
   SendAllData,
-} from "../ScheduleHandle.jsx"; // External support functions
+} from "../ScheduleHandle.jsx";
+
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+} from "reactstrap";
 
 const PeriodNum = [1, 2, 3, 4, 5, 6, 7, 8];
 const LetterDays = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 
-/**
- * Main schedule component
- */
 const DefaultSchedule = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Redirect if on root path
+  const [scheduleData, setScheduleData] = useState(
+    Array(8).fill({ name: "", start: "00:00", end: "00:00" })
+  );
+  const [letterDay, setLetterDay] = useState("X");
+  const [weekDayText, setWeekDayText] = useState("Day of week: Monday");
+
   useEffect(() => {
     if (location.pathname === "/") {
       navigate("/Default");
     }
   }, [location, navigate]);
 
-  // State to track schedule for each period
-  const [scheduleData, setScheduleData] = useState(
-    Array(8).fill({ name: "", start: "00:00", end: "00:00" })
-  );
-
-  // Track current letter day
-  const [letterDay, setLetterDay] = useState("X");
-
-  // Track current week day (display only)
-  const [weekDayText, setWeekDayText] = useState("Day of week: Monday");
-
-  // Handle letter day changes
   useEffect(() => {
-    if (letterDay === "X") {
-      clearSchedule();
-    } else {
-      setDefault();
-    }
+    letterDay === "X" ? clearSchedule() : setDefault();
   }, [letterDay]);
 
-  /**
-   * Clears the schedule state
-   */
-  function clearSchedule() {
+  const clearSchedule = () => {
     setScheduleData(Array(8).fill({ name: "", start: "00:00", end: "00:00" }));
-  }
+  };
 
-  /**
-   * Loads the default schedule for the selected letter day
-   */
-  function setDefault() {
+  const setDefault = () => {
     const schedule = GetNeededSchedule(letterDay, "Fresh");
-    const periods = Object.keys(schedule);
-
-    const updated = periods.map((period) => ({
+    const updated = Object.keys(schedule).map((period) => ({
       name: period,
       start: schedule[period][0],
       end: schedule[period][1],
     }));
 
-    // Fill any missing periods with blank values
     while (updated.length < 8) {
       updated.push({ name: "", start: "00:00", end: "00:00" });
     }
 
     setScheduleData(updated);
-  }
+  };
 
-  /**
-   * Move to the next day of the week and update UI
-   */
-  function nextDay() {
-    ["Fresh", "Sen"].forEach((level) => SaveDay(level));
+  const nextDay = () => {
+    ["Fresh", "Sen"].forEach(SaveDay);
     clearSchedule();
     IncrementWeek();
 
     const weekInt = GetWeekInt();
-    if (weekInt < 5) {
-      setWeekDayText("Day of week: " + GetDayOfWeek());
-    } else {
-      setWeekDayText("Send it");
-    }
-  }
+    setWeekDayText(weekInt < 5 ? `Day of week: ${GetDayOfWeek()}` : "Send it");
+  };
 
-  /**
-   * Auto-fill the whole week based on selected letter day
-   */
-  function autoFillWeek() {
-    if (letterDay !== "X") {
-      for (let i = 0; i < 5; i++) {
-        setDefault();
-        ["Fresh", "Sen"].forEach((level) => SaveDay(level));
-        IncrementWeek();
-        if (i !== 4) {
-          nextLetterDay();
-        } else {
-          setLetterDay("X");
-        }
-      }
-      sendData();
-    } else {
+  const autoFillWeek = () => {
+    if (letterDay === "X") {
       alert("Cannot auto-fill. Start day not defined.");
+      return;
     }
-  }
 
-  /**
-   * Submits all schedule data
-   */
-  function sendData() {
-    ["Fresh", "Sen"].forEach((grade) => SendAllData(grade));
+    for (let i = 0; i < 5; i++) {
+      setDefault();
+      ["Fresh", "Sen"].forEach(SaveDay);
+      IncrementWeek();
+      if (i < 4) nextLetterDay();
+    }
+    setLetterDay("X");
+    sendData();
+  };
+
+  const sendData = () => {
+    ["Fresh", "Sen"].forEach(SendAllData);
     clearSchedule();
-  }
+  };
 
-  /**
-   * Select next letter day in the cycle
-   */
-  function nextLetterDay() {
-    const currentIndex = LetterDays.indexOf(letterDay);
-    const nextIndex = (currentIndex + 1) % LetterDays.length;
+  const nextLetterDay = () => {
+    const nextIndex = (LetterDays.indexOf(letterDay) + 1) % LetterDays.length;
     setLetterDay(LetterDays[nextIndex]);
-  }
+  };
 
   return (
-    <div>
-      <div className='DayOfWeek'>{weekDayText}</div>
+    <Container className="my-4">
+      <h4 className="mb-3 text-center">{weekDayText}</h4>
 
-      <div>
-        <select
-          onChange={(e) => setLetterDay(e.target.value)}
-          value={letterDay}
-        >
-          <option value='X'>Off School</option>
-          {LetterDays.map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
+      <Form>
+        <FormGroup>
+          <Label for="letterDaySelect">Select Letter Day:</Label>
+          <Input
+            type="select"
+            id="letterDaySelect"
+            value={letterDay}
+            onChange={(e) => setLetterDay(e.target.value)}
+          >
+            <option value="X">Off School</option>
+            {LetterDays.map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </Input>
+        </FormGroup>
 
-        <div>
-          {PeriodNum.map((number, index) => (
-            <div key={number} className='inputFieldHolder'>
-              <label>Period {number}</label>
-              <input
-                className='inputField'
-                type='text'
-                value={scheduleData[index]?.name || ""}
-                readOnly
-              />
-              <input
-                className='inputField'
-                type='time'
-                value={scheduleData[index]?.start || "00:00"}
-                readOnly
-              />
-              <input
-                className='inputField'
-                type='time'
-                value={scheduleData[index]?.end || "00:00"}
-                readOnly
-              />
-            </div>
-          ))}
-        </div>
+        {letterDay === "X" ? (
+          <div className="text-center text-muted fs-5 my-4">
+            📅 No schedule – School is off for the day.
+          </div>
+        ) : (
+          scheduleData
+            .filter((period) => period.name !== "")
+            .map((period, index) => (
+              <FormGroup key={index} className="border p-3 mb-3 rounded">
+                <Row className="align-items-center text-center">
+                  <Col xs={12} md={2}>
+                    <Label className="fw-bold">Period {index + 1}</Label>
+                  </Col>
+                  <Col xs={12} md={3}>
+                    <Input
+                      type="text"
+                      value={period.name}
+                      readOnly
+                      placeholder="Subject"
+                    />
+                  </Col>
+                  <Col xs={6} md={3}>
+                    <Input
+                      type="text"
+                      readOnly
+                      value={period.start === "00:00" ? "--:--" : period.start}
+                    />
+                  </Col>
+                  <Col xs={6} md={3}>
+                    <Input
+                      type="text"
+                      readOnly
+                      value={period.end === "00:00" ? "--:--" : period.end}
+                    />
+                  </Col>
+                </Row>
+              </FormGroup>
+            ))
+        )}
 
-        <div>
-          <button onClick={nextDay} id='NextDay'>
+        <div className="text-center mt-4">
+          <Button color="primary" className="me-2" onClick={nextDay}>
             Next Day
-          </button>
-          <button onClick={autoFillWeek} id='Autofill'>
+          </Button>
+          <Button color="warning" className="me-2" onClick={autoFillWeek}>
             Auto-Fill
-          </button>
-          <button onClick={sendData} name='SendIt' value='Set'>
-            Submit data
-          </button>
+          </Button>
+          <Button color="success" onClick={sendData}>
+            Submit Data
+          </Button>
         </div>
-      </div>
-    </div>
+      </Form>
+    </Container>
   );
 };
 

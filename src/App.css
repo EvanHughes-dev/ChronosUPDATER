@@ -2,22 +2,45 @@
   text-align: center;
 }
 
-body{
-  background-color: lightgray;
+body {
+  background-color: #5C574B;
 }
 
-
-
-.App-link {
-  color: #61dafb;
+.parent-div {
+  margin-top: 50px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+.login-container {
+  width: 50%;
+}
 
-  to {
-    transform: rotate(360deg);
-  }
+.login-form {
+  padding: 30px;
+  border: 2px solid #DBB446;
+  border-radius: 8px;
+  background-color: #010142;
+  box-shadow: 0 0 20px #beac7c;
+  color: #DBB446;
+}
+
+.login-form h3 {
+  color: #343a40;
+}
+
+Label {
+  padding-right: 5px;
+  font-size: 2em;
+}
+
+Input {
+  padding: 5px;
+  margin: 5px;
+}
+
+.SubmitBtn {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 10px;
 }
